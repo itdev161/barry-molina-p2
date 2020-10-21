@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://barry:P9qDAFzHQPOkNq8s@itdev161.jof4e.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://barry:P9qDAFzHQPOkNq8s@itdev161.jof4e.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "mysupersecretstring"
 }
