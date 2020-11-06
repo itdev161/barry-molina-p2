@@ -4,10 +4,40 @@ import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
+import { isAssertionExpression } from 'typescript';
 
 class App extends React.Component {
   state = {
-    data: null
+    data: null,
+    token: null,
+    user: null
+  }
+
+  authenticateUser = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      localStorage.removeItem('user')
+      this.setState({ user: null });
+    }
+
+    if (token) {
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      }
+      axios.get('http://localhost:5000/api/auth', config)
+        .then((response) => {
+          localStorage.setItem('user', response.data.name);
+          this.setState({ user: response.data.name });
+        })
+        .catch((error) => {
+          localStorage.removeItem('user');
+          this.setState({ user: null });
+          console.log(`Error logging in: ${error}`);
+        })
+    }
   }
 
   componentDidMount() {
