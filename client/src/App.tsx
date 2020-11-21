@@ -5,12 +5,36 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import { isAssertionExpression } from 'typescript';
+import ListBank from './components/ListBank/ListBank';
+import List from './components/List/List';
 
 class App extends React.Component {
   state = {
-    data: null,
+    lists: [],
+    list: null,
     token: null,
     user: null
+  }
+
+  loadData = () => {
+    const { token } = this.state;
+
+    if (token) {
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      };
+      axios.get('http://localhost:5000/api/lists', config)
+        .then((response) => {
+          this.setState({
+            lists: response.data
+          });
+        })
+        .catch((error) => {
+          console.error(`Error fetching data: ${error}`);
+        })
+    }
   }
 
   authenticateUser = () => {
@@ -30,7 +54,15 @@ class App extends React.Component {
       axios.get('http://localhost:5000/api/auth', config)
         .then((response) => {
           localStorage.setItem('user', response.data.name);
-          this.setState({ user: response.data.name });
+          this.setState(
+            { 
+              user: response.data.name,
+              token: token
+            },
+            () => {
+              this.loadData()
+            }
+          );
         })
         .catch((error) => {
           localStorage.removeItem('user');
@@ -46,21 +78,18 @@ class App extends React.Component {
     this.setState({ user: null, token: null });
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:5000')
-      .then((response) => {
-        this.setState({
-          data: response.data
-        })
-      })
-      .catch((error) => {
-        console.error(`Error fetching data: ${error}`);
-      })
+  viewList = list => {
+    console.log(`view ${list.title}`)
+    this.setState({
+      list:list
+    })
+  }
 
+  componentDidMount() {
       this.authenticateUser();
   }
   render() {
-    let { user, data } = this.state;
+    let { user, lists, list } = this.state;
     const authProps = {
       authenticateUser: this.authenticateUser,
     }
@@ -68,7 +97,7 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <header className="App-header">
-            <h1>GoodThings</h1>
+            <h1>WishList</h1>
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -85,19 +114,25 @@ class App extends React.Component {
             </ul>
           </header>
           <main>
-            <Route exact path="/">
-              {user ?
-                <React.Fragment>
-                  <div>Hello {user}!</div>
-                  <div>{data}</div>
-                </React.Fragment> :
-                <React.Fragment>
-                  Please Register or Login
-                </React.Fragment>
-              }
-
-            </Route>
             <Switch>
+              <Route exact path="/">
+                {user ?
+                  <React.Fragment>
+                    <h2 id="greeting">Hello, {user}!</h2>
+                    <p>Here are your lists:</p>
+                    <ListBank
+                      lists={lists}
+                      clickList={this.viewList}
+                    />
+                  </React.Fragment> :
+                  <React.Fragment>
+                    Please Register or Login
+                  </React.Fragment>
+                }
+              </Route>
+              <Route path="/lists/:listTitle">
+                <List list={list}/>
+              </Route>
               <Route 
                 exact path="/register" 
                 render={() => <Register {...authProps} />} />

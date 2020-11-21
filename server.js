@@ -7,6 +7,8 @@ import User from './models/User';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import auth from './middleware/auth';
+import List from './models/List';
+import mongoose from 'mongoose';
 
 // Initialize express application
 const app = express();
@@ -34,6 +36,105 @@ app.get('/api/auth', auth, async (req, res) => {
     }
 });
 
+/**
+ * @route GET /
+ * @desc Test endpoint
+ */
+
+app.get('/', (req, res) =>
+    res.send('http get request sent to root api endpoint')
+);
+
+/**
+ * @route GET api/lists
+ * @desc Get lists
+ */
+app.get('/api/lists', auth, async (req, res) => {
+    try {
+        const lists = await List.find({ user: req.user.id });
+
+        res.json(lists);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+/**
+ * @route POST api/lists
+ * @desc Create list
+ */
+app.post(
+    '/api/lists',
+    [
+        auth,
+        [
+            check('title', 'Title text is required')
+                .not()
+                .isEmpty(),
+        ]
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400).json({errors: errors.array() });
+        } else {
+            const { title } = req.body;
+            try {
+                const user = await User.findById(req.user.id);
+
+                const list = new List({
+                    user: user.id,
+                    title: title,
+                });
+
+                await list.save();
+
+                res.json(list);
+            } catch (error) {
+                console.error(error);
+                res.status(500).send('Server error');
+            }
+        }
+    }
+);
+
+/**
+ * @route POST api/lists/:id
+ * @desc Create listItem
+ */
+app.post(
+    '/api/lists/:id',
+    [
+        auth,
+        [
+            check('desc', 'Description text is required')
+                .not()
+                .isEmpty(),
+        ]
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400).json({errors: errors.array() });
+        } else {
+            const { desc } = req.body;
+            try {
+                const list = await List.findById(req.params.id);
+
+                const listItem = { _id: mongoose.Types.ObjectId(), desc: desc };
+                list.items.push(listItem);
+
+                await list.save();
+
+                res.json(listItem);
+            } catch (error) {
+                console.error(error);
+                res.status(500).send('Server error');
+            }
+        }
+    }
+);
 /**
  * @route POST api/login
  * @desc Login user
@@ -71,15 +172,6 @@ app.post(
             }
         }
     }
-);
-
-/**
- * @route GET /
- * @desc Test endpoint
- */
-
-app.get('/', (req, res) =>
-    res.send('http get request sent to root api endpoint')
 );
 
 /**

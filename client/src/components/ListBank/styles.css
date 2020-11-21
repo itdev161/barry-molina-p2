@@ -1,0 +1,58 @@
+.listBankItem {
+    position: relative;
+    /* padding: 0 30px; */
+    border: solid 1px transparent;
+    max-height: 150px;
+    overflow: hidden;
+}
+/* .listBankItem:after {
+    position: absolute;
+    bottom: 0;  
+    height: 100%;
+    width: 100%;
+    content: "";
+    background: linear-gradient(to top,
+       rgba(255,255,255, 1) 2%, 
+       rgba(255,255,255, 0) 45%
+    );
+    pointer-events: none; 
+  } */
+
+.listBankItem:after {
+    position: absolute;
+    bottom: 0;  
+    height: 100%;
+    width: 100%;
+    content: "";
+    background: linear-gradient(to bottom,
+       rgba(255,255,255, 0) 80px,
+       rgba(255,255,255, 1) 150px 
+    );
+    pointer-events: none; 
+  }
+.listBankItem:hover {
+    /* background-color: #eeeeee;
+    border-color: #aaaaaa; */
+    cursor: pointer;
+    max-height: fit-content;
+}
+
+.listBankItem:hover::after {
+    content: none;
+
+}
+
+/* .listBankItem ol {
+    max-height: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
+
+/* .postControls {
+    margin: 10px 0 10px 0;
+}
+
+.postControls button {
+    margin-left: 10px;
+} */

@@ -1,13 +1,13 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
 .App-logo {
   height: 40vmin;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #629efc;
   min-height: 10vh;
   display: flex;
   flex-direction: row;
@@ -42,7 +42,19 @@
 }
 
 main {
-  margin: 30px auto;
+  margin: 0 30px;
 }
 
+#greeting {
+  text-align: center;
+  font-size: 2em;
+  padding-top: 20px;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  font-size: 1.3em;
+  color: #808080;
+}
 

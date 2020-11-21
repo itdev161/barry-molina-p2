@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import './styles.css';
 
 const Login = ({ authenticateUser }) => {
     let history = useHistory();
@@ -52,7 +53,7 @@ const Login = ({ authenticateUser }) => {
     }
 
     return (
-        <div>
+        <div className="authentication">
             <h2>Log In</h2>
             <div>
                 <input
