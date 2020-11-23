@@ -136,6 +136,31 @@ app.post(
     }
 );
 /**
+ * @route DELETE api/lists/:listId/:itemId
+ * @desc Delete a list item
+ */
+app.delete('/api/lists/:listId/:itemId', auth, async (req, res) => {
+    try {
+        const list = await List.findById(req.params.listId);
+
+        if (!list) {
+            return res.status(404).json({ msg: 'List not found'});
+        }
+
+        if (list.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized'});
+        }
+
+        list.items.id(req.params.itemId).remove();
+        await list.save();
+
+        res.json({ msg: 'List item removed' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+/**
  * @route POST api/login
  * @desc Login user
  */

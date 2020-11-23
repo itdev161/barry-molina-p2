@@ -3,7 +3,9 @@
     /* padding: 0 30px; */
     border: solid 1px transparent;
     max-height: 150px;
+    max-width: fit-content;
     overflow: hidden;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1);
 }
 /* .listBankItem:after {
     position: absolute;
@@ -18,7 +20,7 @@
     pointer-events: none; 
   } */
 
-.listBankItem:after {
+.listBankItem::after {
     position: absolute;
     bottom: 0;  
     height: 100%;
@@ -29,17 +31,19 @@
        rgba(255,255,255, 1) 150px 
     );
     pointer-events: none; 
+    opacity: 1;
+    transition: opacity .5s;
   }
 .listBankItem:hover {
     /* background-color: #eeeeee;
     border-color: #aaaaaa; */
     cursor: pointer;
-    max-height: fit-content;
+    max-height: 800px;
+    transition: max-height .5s ease-in-out;
 }
 
 .listBankItem:hover::after {
-    content: none;
-
+    opacity: 0;
 }
 
 /* .listBankItem ol {

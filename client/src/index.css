@@ -10,6 +10,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input {
+  font-family: 'Nerko One', cursive;
+  font-size: large;
+  letter-spacing: .02em;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

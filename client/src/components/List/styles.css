@@ -1,3 +1,36 @@
-/* li:hover {
-    cursor: url(./pencil-cursor.svg), auto;
-} */
+.list li .liText:hover {
+    /* padding: 0 5px; */
+    cursor: url('./pencil2.png'), auto;
+    /* border: 2px solid black;
+    border-radius: 4px; */
+}
+
+.list {
+    width: fit-content;
+    min-width: 250px;
+}
+
+input {
+    border: 2px solid black;
+    border-radius: 4px;
+}
+input:focus {
+    outline: none;
+}
+
+button#deleteBtn {
+    cursor: pointer;
+    float: right;
+    margin-left: 1em;
+}
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 500ms;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 500ms, opacity 500ms;
+}

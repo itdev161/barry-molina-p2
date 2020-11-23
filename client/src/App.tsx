@@ -37,6 +37,7 @@ class App extends React.Component {
     }
   }
 
+
   authenticateUser = () => {
     const token = localStorage.getItem('token');
 
@@ -85,11 +86,63 @@ class App extends React.Component {
     })
   }
 
+  onItemAdded = listItem => {
+    const newList = this.state.list;
+    newList.items = [...newList.items, listItem];
+
+    const newLists = [...this.state.lists];
+    const index = newLists.findIndex(list => list._id === newList._id);
+
+    newLists[index] = newList;
+
+    this.setState({
+      lists: newLists,
+      list: newList
+    });
+  };
+
+  onItemUpdated = listItem => {
+
+  }
+
+  deleteItem = item => {
+    const { token, list } = this.state;
+
+    if (token) {
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      };
+
+      axios
+        .delete(`http://localhost:5000/api/lists/${list._id}/${item._id}`, config)
+        .then(response => {
+          const newList = this.state.list;
+          newList.items = newList.items.filter(i => i._id !== item._id);
+
+          const newLists = [...this.state.lists];
+          const index = newLists.findIndex(list => list._id === newList._id);
+
+          newLists[index] = newList;
+
+          this.setState({
+            lists: newLists,
+            list: newList
+          });
+        })
+        .catch(error => {
+          console.error(`Error deleting list: ${error}`);
+        });
+    }
+
+  }
+
   componentDidMount() {
       this.authenticateUser();
   }
   render() {
-    let { user, lists, list } = this.state;
+    let { user, lists, list, token } = this.state;
     const authProps = {
       authenticateUser: this.authenticateUser,
     }
@@ -131,7 +184,13 @@ class App extends React.Component {
                 }
               </Route>
               <Route path="/lists/:listTitle">
-                <List list={list}/>
+                <List 
+                  token={token} 
+                  list={list} 
+                  onItemAdded={this.onItemAdded}
+                  onItemUpdated={this.onItemUpdated}
+                  deleteItem={this.deleteItem}
+                />
               </Route>
               <Route 
                 exact path="/register" 
