@@ -13,23 +13,29 @@ const ListItem = ({ token, list, item, deleteItem, onItemUpdated }) => {
     const cancel = () => {
         setEditing(false);
     }
+
+    const itemUpdated = item => {
+        setEditing(false);
+        onItemUpdated(item);
+    }
+
     return(
         <React.Fragment>
             {editing ? (
                 <EditListItem
+                    key="editListItem"
                     token={token}
                     list={list}
                     item={item}
-                    onItemUpdated={onItemUpdated}
+                    itemUpdated={itemUpdated}
                     cancel={cancel}
                 />
             ) : ( 
                 <li
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
-                    onClick={() => editItem()}
                 >
-                    <span className='liText'> {item.desc} </span>
+                    <span className='liText' onClick={() => editItem()}> {item.desc} </span>
                     <button 
                         id='deleteBtn'
                         className={hovered ? 'visible' : 'hidden'}

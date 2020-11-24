@@ -4,29 +4,18 @@ import ListItem from './ListItem';
 import './styles.css';
 
 const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated }) => {
-    const [listStatus, setListStatus] = useState({
-        addingItem: false
-    });
-
-    const { addingItem } = listStatus;
-
-    const newItem = () => {
-        setListStatus({
-            ...listStatus,
-            addingItem: true
-        });
-    };
-    
-    const cancel = () => {
-        setListStatus({
-            ...listStatus,
-            addingItem: false
-        });
-    }
+    const [editingTitle, setEditingTitle] = useState(false);
+    const [addingItem, setAddingItem] = useState(false);
 
     return (
         <div className="list">
-            <h2>{list.title}</h2>
+            <h2>
+                {editingTitle ? (
+                    <input type='text'/>
+                ) : (
+                    <span className="title" onClick={() => setEditingTitle(true)}>{list.title}</span>
+                )}
+            </h2>
             <ol>
                 {list.items.map( item => (
                     <ListItem 
@@ -43,11 +32,11 @@ const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated }) => {
                         token={token}
                         list={list}
                         onItemAdded={onItemAdded}
-                        cancel={cancel}
+                        cancel={() => setAddingItem(false)}
                     />
                 }
             </ol>
-            <button id="newItemBtn" onClick={() => newItem()}>Add List Item</button>
+            <button id="newItemBtn" onClick={() => setAddingItem(true)}>Add List Item</button>
         </div>
     );
 };

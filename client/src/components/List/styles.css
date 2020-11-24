@@ -5,6 +5,10 @@
     border-radius: 4px; */
 }
 
+.title:hover {
+    cursor: url('./pencil2.png'), auto;
+}
+
 .list {
     width: fit-content;
     min-width: 250px;
@@ -18,8 +22,10 @@ input:focus {
     outline: none;
 }
 
-button#deleteBtn {
+button {
     cursor: pointer;
+}
+button#deleteBtn {
     float: right;
     margin-left: 1em;
 }

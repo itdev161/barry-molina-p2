@@ -30,6 +30,14 @@ class App extends React.Component {
           this.setState({
             lists: response.data
           });
+          const listId = localStorage.getItem('list');
+          if (listId) {
+            const list = this.state.lists.find(l => l._id === listId);
+            console.log(list);
+            this.setState({
+              list: list
+            })
+          }
         })
         .catch((error) => {
           console.error(`Error fetching data: ${error}`);
@@ -76,32 +84,35 @@ class App extends React.Component {
   logOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('list');
     this.setState({ user: null, token: null });
   }
 
   viewList = list => {
-    console.log(`view ${list.title}`)
     this.setState({
       list:list
     })
+    localStorage.setItem('list', list._id);
   }
 
   onItemAdded = listItem => {
     const newList = this.state.list;
     newList.items = [...newList.items, listItem];
 
-    const newLists = [...this.state.lists];
-    const index = newLists.findIndex(list => list._id === newList._id);
-
-    newLists[index] = newList;
-
     this.setState({
-      lists: newLists,
       list: newList
     });
   };
 
   onItemUpdated = listItem => {
+    const newList = this.state.list;
+    const index = newList.items.findIndex(item => item._id === listItem._id);
+
+    newList.items[index] = listItem;
+
+    this.setState({
+      list: newList
+    });
 
   }
 
@@ -121,13 +132,7 @@ class App extends React.Component {
           const newList = this.state.list;
           newList.items = newList.items.filter(i => i._id !== item._id);
 
-          const newLists = [...this.state.lists];
-          const index = newLists.findIndex(list => list._id === newList._id);
-
-          newLists[index] = newList;
-
           this.setState({
-            lists: newLists,
             list: newList
           });
         })
@@ -139,6 +144,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+      console.log("here");
       this.authenticateUser();
   }
   render() {

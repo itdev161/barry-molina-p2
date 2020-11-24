@@ -136,6 +136,68 @@ app.post(
     }
 );
 /**
+ * @route PUT api/lists/:listId/:itemId
+ * @desc Update a list item
+ */
+app.put('/api/lists/:listId/:itemId', auth, async (req, res) => {
+    try {
+        const { desc } = req.body;
+
+        const list = await List.findById(req.params.listId);
+
+        if (!list) {
+            return res.status(404).json({ msg: 'List not found'});
+        }
+
+        if (list.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized'});
+        }
+
+        const item = list.items.id(req.params.itemId);
+
+        if (!item) {
+            return res.status(404).json({ msg: 'List not found'});
+        }
+
+        item.desc = desc || item.desc;
+
+        await list.save();
+
+        res.json(item);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+/**
+ * @route PUT api/lists/:id
+ * @desc Update a list
+ */
+app.put('/api/lists/:id', auth, async (req, res) => {
+    try {
+        const { title } = req.body;
+        const list = await List.findById(req.params.id);
+
+        if (!list) {
+            return res.status(404).json({ msg: 'List not found'});
+        }
+
+        if (list.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized'});
+        }
+
+        list.title = title || list.title;
+
+        await list.save();
+
+        res.json(list);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+/**
  * @route DELETE api/lists/:listId/:itemId
  * @desc Delete a list item
  */
