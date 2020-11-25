@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
 import AddListItem from './AddListItem';
 import ListItem from './ListItem';
+import EditListTitle from './EditListTitle';
 import './styles.css';
 
-const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated }) => {
+const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpdated }) => {
     const [editingTitle, setEditingTitle] = useState(false);
     const [addingItem, setAddingItem] = useState(false);
+
+    const titleUpdated = list => {
+        setEditingTitle(false);
+        onTitleUpdated(list);
+    }
 
     return (
         <div className="list">
             <h2>
                 {editingTitle ? (
-                    <input type='text'/>
+                    <EditListTitle
+                        token={token}
+                        list={list}
+                        titleUpdated={titleUpdated}
+                        cancel={() => setEditingTitle(false)}
+                    />
                 ) : (
                     <span className="title" onClick={() => setEditingTitle(true)}>{list.title}</span>
                 )}

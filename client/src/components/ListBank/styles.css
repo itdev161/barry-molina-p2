@@ -7,18 +7,6 @@
     overflow: hidden;
     transition: max-height .5s cubic-bezier(0, 1, 0, 1);
 }
-/* .listBankItem:after {
-    position: absolute;
-    bottom: 0;  
-    height: 100%;
-    width: 100%;
-    content: "";
-    background: linear-gradient(to top,
-       rgba(255,255,255, 1) 2%, 
-       rgba(255,255,255, 0) 45%
-    );
-    pointer-events: none; 
-  } */
 
 .listBankItem::after {
     position: absolute;
@@ -35,8 +23,6 @@
     transition: opacity .5s;
   }
 .listBankItem:hover {
-    /* background-color: #eeeeee;
-    border-color: #aaaaaa; */
     cursor: pointer;
     max-height: 800px;
     transition: max-height .5s ease-in-out;
@@ -46,17 +32,78 @@
     opacity: 0;
 }
 
-/* .listBankItem ol {
-    max-height: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-} */
-
-/* .postControls {
-    margin: 10px 0 10px 0;
+#listBankContainer {
+    position: relative;
 }
 
-.postControls button {
-    margin-left: 10px;
-} */
+img {
+    /* position: absolute; */
+    position: fixed;
+    top: 300px;
+    right: 40%;
+    opacity: 50%;
+    transition: opacity .3s;
+}
+img:hover {
+    cursor: pointer;
+    opacity: 80%;
+}
+
+/* Modal Styles */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 200px;
+}
+
+.modalContent {
+    position: relative;
+    animation: animatetop 0.4s;
+    background-color: white;
+    height: 200px;
+    width: 600px;
+    margin: 0 auto;
+    /* border-radius: 10px; */
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+#closeBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px 10px;
+    font-size: 3em;
+    line-height: 15px;
+}
+
+#closeBtn:hover {
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    cursor: pointer;
+
+}
+
+.modalContent h2 {
+    padding: .5em 0;
+    text-align: center;
+}
+
+.modalContent input {
+    margin-left: .5em;
+}
+
+.modalContent form {
+    text-align: center;
+}
+
+.modalContent .buttons {
+    padding-top: 50px;
+}
+ .modalContent button {
+     margin: 0 .5em;
+ }

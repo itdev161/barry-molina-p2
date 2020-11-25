@@ -3,21 +3,21 @@ import axios from 'axios';
 import './styles.css'
 
 
-const EditListItem = ({ token, list, item, itemUpdated, cancel }) => {
+const EditListTitle = ({ token, list, titleUpdated, cancel }) => {
 
-    const [desc, setDesc] = useState(item.desc);
+    const [title, setTitle] = useState(list.title);
 
     const onChange = e => {
-        setDesc(e.target.value);
+        setTitle(e.target.value);
     }
 
-    const updateItem = async e => {
+    const updateTitle = async e => {
         e.preventDefault();
-        if (!desc) {
-            console.log('Item description is required');
+        if (!title) {
+            console.log('List title is required');
         } else {
-            const updatedItem = {
-                desc: desc
+            const updatedList = {
+                title: title
             }
 
             try {
@@ -28,39 +28,39 @@ const EditListItem = ({ token, list, item, itemUpdated, cancel }) => {
                     }
                 };
 
-                const body = JSON.stringify(updatedItem);
+                const body = JSON.stringify(updatedList);
                 const res = await axios.put(
-                    `http://localhost:5000/api/lists/${list._id}/${item._id}`,
+                    `http://localhost:5000/api/lists/${list._id}`,
                     body,
                     config
                 );
-                itemUpdated(res.data);
+
+                titleUpdated(res.data);
                 
 
             } catch (error) {
-                console.error(`Error updating item: ${error.response.data}`);
+                console.error(`Error updating list: ${error}`);
             }
         }
     }
 
     return (
         <React.Fragment>
-            <li>
-                <form onSubmit={e => updateItem(e)}>
-                    <input
-                        className='editInput'
-                        type="text"
-                        value={desc}
-                        onChange={e => onChange(e)}
-                        onBlur={() => cancel()}
-                        autoFocus
-                    />
-                    <button type="button" onMouseDown={e => updateItem(e)}>Update</button>
-                    <button type="button" onClick={() => cancel()}>Cancel</button>
-                </form>
-            </li>
+            <form onSubmit={e => updateTitle(e)}>
+                <input
+                    className='editTitle'
+                    type="text"
+                    value={title}
+                    onChange={e => onChange(e)}
+                    onBlur={() => cancel()}
+                    autoFocus
+                    onFocus={e => e.currentTarget.select()}
+                />
+                <button type="button" onMouseDown={e => updateTitle(e)}>Update</button>
+                <button type="button" onClick={() => cancel()}>Cancel</button>
+            </form>
         </React.Fragment>
     )
 }
 
-export default EditListItem;
+export default EditListTitle;

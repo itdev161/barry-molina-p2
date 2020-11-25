@@ -33,7 +33,7 @@ class App extends React.Component {
           const listId = localStorage.getItem('list');
           if (listId) {
             const list = this.state.lists.find(l => l._id === listId);
-            console.log(list);
+            // console.log(list);
             this.setState({
               list: list
             })
@@ -95,6 +95,10 @@ class App extends React.Component {
     localStorage.setItem('list', list._id);
   }
 
+  onListCreated = list => {
+    console.log(list)
+  }
+
   onItemAdded = listItem => {
     const newList = this.state.list;
     newList.items = [...newList.items, listItem];
@@ -113,6 +117,19 @@ class App extends React.Component {
     this.setState({
       list: newList
     });
+
+  }
+  
+  onTitleUpdated = list => {
+    const newLists = [...this.state.lists];
+    const index = newLists.findIndex(l => l._id === list._id);
+
+    newLists[index] = list;
+
+    this.setState({
+      list: list,
+      lists: newLists
+    })
 
   }
 
@@ -180,8 +197,10 @@ class App extends React.Component {
                     <h2 id="greeting">Hello, {user}!</h2>
                     <p>Here are your lists:</p>
                     <ListBank
+                      token={token}
                       lists={lists}
                       clickList={this.viewList}
+                      onListCreated={this.onListCreated}
                     />
                   </React.Fragment> :
                   <React.Fragment>
@@ -195,6 +214,7 @@ class App extends React.Component {
                   list={list} 
                   onItemAdded={this.onItemAdded}
                   onItemUpdated={this.onItemUpdated}
+                  onTitleUpdated={this.onTitleUpdated}
                   deleteItem={this.deleteItem}
                 />
               </Route>
