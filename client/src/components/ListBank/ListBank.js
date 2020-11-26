@@ -6,9 +6,10 @@ import CreateList from './CreateList';
 const ListBank = ({ token, lists, clickList, onListCreated }) => {
     const [creating, setCreating] = useState(false);
 
-    const createList = () => {
-        // onListCreated(list);
-        console.log('creating list');
+    const createList = list => {
+        setCreating(false);
+        onListCreated(list);
+        
     }
     return(
         <div id='listBankContainer'>
@@ -23,7 +24,7 @@ const ListBank = ({ token, lists, clickList, onListCreated }) => {
             <img 
                 src={addList} 
                 alt='Create a List' 
-                title='Create a New List'
+                title='Create a List'
                 onClick={() => setCreating(true)}
             />
             {creating && 

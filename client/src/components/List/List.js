@@ -4,13 +4,19 @@ import ListItem from './ListItem';
 import EditListTitle from './EditListTitle';
 import './styles.css';
 
-const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpdated }) => {
+const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpdated, onListDeleted }) => {
     const [editingTitle, setEditingTitle] = useState(false);
     const [addingItem, setAddingItem] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     const titleUpdated = list => {
         setEditingTitle(false);
         onTitleUpdated(list);
+    }
+
+    const deleteList = () => {
+        console.log("deleting list");
+        onListDeleted(list);
     }
 
     return (
@@ -47,7 +53,16 @@ const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpda
                     />
                 }
             </ol>
+            <button id="deleteListBtn" onClick={() => deleteList()}>Delete List</button>
             <button id="newItemBtn" onClick={() => setAddingItem(true)}>Add List Item</button>
+        {deleting && 
+            <DeleteList 
+                token={token}
+                list={list}
+                deleteList={deleteList}
+                cancel={() => setDeleting(false)}
+            />
+        }
         </div>
     );
 };

@@ -43,7 +43,7 @@ class App extends React.Component {
           console.error(`Error fetching data: ${error}`);
         })
     }
-  }
+  };
 
 
   authenticateUser = () => {
@@ -79,25 +79,27 @@ class App extends React.Component {
           console.log(`Error logging in: ${error}`);
         })
     }
-  }
+  };
 
   logOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('list');
     this.setState({ user: null, token: null });
-  }
+  };
 
   viewList = list => {
     this.setState({
       list:list
-    })
+    });
     localStorage.setItem('list', list._id);
-  }
+  };
 
   onListCreated = list => {
-    console.log(list)
-  }
+    this.setState({
+      list:list
+    });
+  };
 
   onItemAdded = listItem => {
     const newList = this.state.list;
@@ -117,8 +119,7 @@ class App extends React.Component {
     this.setState({
       list: newList
     });
-
-  }
+  };
   
   onTitleUpdated = list => {
     const newLists = [...this.state.lists];
@@ -129,9 +130,8 @@ class App extends React.Component {
     this.setState({
       list: list,
       lists: newLists
-    })
-
-  }
+    });
+  };
 
   deleteItem = item => {
     const { token, list } = this.state;
@@ -157,13 +157,15 @@ class App extends React.Component {
           console.error(`Error deleting list: ${error}`);
         });
     }
+  };
 
+  onListDeleted = list => {
+    console.log("deleting list from app.tsx");
   }
-
   componentDidMount() {
       console.log("here");
       this.authenticateUser();
-  }
+  };
   render() {
     let { user, lists, list, token } = this.state;
     const authProps = {
@@ -216,6 +218,7 @@ class App extends React.Component {
                   onItemUpdated={this.onItemUpdated}
                   onTitleUpdated={this.onTitleUpdated}
                   deleteItem={this.deleteItem}
+                  onListDeleted={this.onListDeleted}
                 />
               </Route>
               <Route 

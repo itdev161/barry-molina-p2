@@ -223,6 +223,30 @@ app.delete('/api/lists/:listId/:itemId', auth, async (req, res) => {
     }
 });
 /**
+ * @route DELETE api/lists/:listId/
+ * @desc Delete a list
+ */
+app.delete('/api/lists/:listId', auth, async (req, res) => {
+    try {
+        const list = await List.findById(req.params.listId);
+
+        if (!list) {
+            return res.status(404).json({ msg: 'List not found'});
+        }
+
+        if (list.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized'});
+        }
+
+        await list.remove();
+
+        res.json({ msg: 'List removed' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+/**
  * @route POST api/login
  * @desc Login user
  */
