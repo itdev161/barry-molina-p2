@@ -96,8 +96,10 @@ class App extends React.Component {
   };
 
   onListCreated = list => {
+    const newLists = [...this.state.lists, list];
     this.setState({
-      list:list
+      lists: newLists,
+      list: list
     });
   };
 
@@ -160,7 +162,11 @@ class App extends React.Component {
   };
 
   onListDeleted = list => {
-    console.log("deleting list from app.tsx");
+    const newLists = this.state.lists.filter(l => l._id !== list._id);
+    this.setState({
+      lists: [...newLists]
+    });
+
   }
   componentDidMount() {
       console.log("here");
@@ -197,7 +203,7 @@ class App extends React.Component {
                 {user ?
                   <React.Fragment>
                     <h2 id="greeting">Hello, {user}!</h2>
-                    <p>Here are your lists:</p>
+                    <p className='greyedout'>Here are your lists:</p>
                     <ListBank
                       token={token}
                       lists={lists}

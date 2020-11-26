@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AddListItem from './AddListItem';
 import ListItem from './ListItem';
 import EditListTitle from './EditListTitle';
+import DeleteList from './DeleteList';
 import './styles.css';
 
 const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpdated, onListDeleted }) => {
@@ -14,10 +15,10 @@ const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpda
         onTitleUpdated(list);
     }
 
-    const deleteList = () => {
-        console.log("deleting list");
-        onListDeleted(list);
-    }
+    // const deleteList = () => {
+    //     console.log("deleting list");
+    //     onListDeleted(list);
+    // }
 
     return (
         <div className="list">
@@ -53,16 +54,16 @@ const List = ({ token, list, onItemAdded, deleteItem, onItemUpdated, onTitleUpda
                     />
                 }
             </ol>
-            <button id="deleteListBtn" onClick={() => deleteList()}>Delete List</button>
+            <button id="deleteListBtn" onClick={() => setDeleting(true)}>Delete List</button>
             <button id="newItemBtn" onClick={() => setAddingItem(true)}>Add List Item</button>
-        {deleting && 
-            <DeleteList 
-                token={token}
-                list={list}
-                deleteList={deleteList}
-                cancel={() => setDeleting(false)}
-            />
-        }
+            {deleting && 
+                <DeleteList 
+                    token={token}
+                    list={list}
+                    deleteList={onListDeleted}
+                    cancel={() => setDeleting(false)}
+                />
+            }
         </div>
     );
 };

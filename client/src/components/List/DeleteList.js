@@ -30,28 +30,14 @@ const DeleteList = ({ token, list, deleteList, cancel }) => {
     return(
         <div className='modal'>
             <div className='modalContent'>
-                <header>
-                    <span id='closeBtn' onClick={() => cancel()}>&times;</span>
-                    <h2>Delete a List</h2>
-                    <form onSubmit={e => handleDelete(e)}>
-                        <label>
-                            List Title:
-                            <input
-                                id='newTitle'
-                                type="text"
-                                value={title}
-                                onChange={e => onChange(e)}
-                                autoFocus
-                            />
-                        </label>
-                        <div className='buttons'>
-                            <button type="submit">Ok</button>
-                        </div>
-                    </form>
-
-
-                </header>
-
+                <span className='closeBtn' onClick={() => cancel()}>&times;</span>
+                <h2>Delete List</h2>
+                <form onSubmit={e => handleDelete(e)}>
+                    <p>Are you sure you want to delete <span className='blue'>{list.title}</span>?</p>
+                    <div className='buttons'>
+                        <button type="submit">Delete</button>
+                    </div>
+                </form>
             </div>
         </div>
     )

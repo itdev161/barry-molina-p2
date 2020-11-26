@@ -40,3 +40,8 @@ button#deleteBtn {
     opacity: 0;
     transition: visibility 0s linear 500ms, opacity 500ms;
 }
+
+.blue {
+    font-size: 1.3em;
+    color: #629efc;
+}

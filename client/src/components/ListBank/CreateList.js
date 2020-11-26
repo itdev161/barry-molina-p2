@@ -52,28 +52,23 @@ const CreateList = ({ token, createList, cancel }) => {
     return(
         <div className='modal'>
             <div className='modalContent'>
-                <header>
-                    <span id='closeBtn' onClick={() => cancel()}>&times;</span>
-                    <h2>Create a List</h2>
-                    <form onSubmit={e => create(e)}>
-                        <label>
-                            List Title:
-                            <input
-                                id='newTitle'
-                                type="text"
-                                value={title}
-                                onChange={e => onChange(e)}
-                                autoFocus
-                            />
-                        </label>
-                        <div className='buttons'>
-                            <button type="submit">Create</button>
-                        </div>
-                    </form>
-
-
-                </header>
-
+                <span className='closeBtn' onClick={() => cancel()}>&times;</span>
+                <h2>Create a List</h2>
+                <form onSubmit={e => create(e)}>
+                    <label>
+                        List Title:
+                        <input
+                            id='newTitle'
+                            type="text"
+                            value={title}
+                            onChange={e => onChange(e)}
+                            autoFocus
+                        />
+                    </label>
+                    <div className='buttons'>
+                        <button type="submit">Create</button>
+                    </div>
+                </form>
             </div>
         </div>
     )
