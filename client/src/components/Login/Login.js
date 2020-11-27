@@ -23,7 +23,7 @@ const Login = ({ authenticateUser }) => {
     }
 
     const loginUser = async () => {
-        const newUser = {
+        const user = {
             email: email,
             password: password
         }
@@ -35,7 +35,7 @@ const Login = ({ authenticateUser }) => {
                 }
             }
 
-            const body = JSON.stringify(newUser);
+            const body = JSON.stringify(user);
             const res = await axios.post('http://localhost:5000/api/login', body, config);
 
             localStorage.setItem('token', res.data.token);
