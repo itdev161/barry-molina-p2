@@ -107,9 +107,21 @@ class App extends React.Component {
     const newList = this.state.list;
     newList.items = [...newList.items, listItem];
 
+    const newLists = [...this.state.lists];
+    const index = newLists.findIndex(list => list._id === newList._id);
+
+    newLists[index] = newList;
+
     this.setState({
+      lists: newLists,
       list: newList
     });
+    // const newList = this.state.list;
+    // newList.items = [...newList.items, listItem];
+
+    // this.setState({
+    //   list: newList
+    // });
   };
 
   onItemUpdated = listItem => {
