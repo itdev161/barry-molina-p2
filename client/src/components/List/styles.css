@@ -24,6 +24,7 @@ input:focus {
 
 button {
     cursor: pointer;
+    margin-left: 5px;
 }
 button#deleteBtn {
     float: right;
