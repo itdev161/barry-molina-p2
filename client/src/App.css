@@ -76,7 +76,7 @@ p.greyedout {
     position: relative;
     animation: animatetop 0.4s;
     background-color: white;
-    height: 200px;
+    min-height: 200px;
     width: 600px;
     margin: 0 auto;
     /* border-radius: 10px; */
@@ -113,6 +113,7 @@ p.greyedout {
 
 .modalContent .buttons {
     padding-top: 50px;
+    padding-bottom: 20px;
 }
  .modalContent button {
      margin: 0 .5em;
